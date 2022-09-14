@@ -3,7 +3,9 @@ import { STATUS_CODE } from "../enums/statusCode.js";
 import { COLLECTIONS } from "../enums/collections.js";
 
 async function getProducts(req, res) {
-    const query = req.query.search;
+    const queryName = req.query.search;
+    const queryCategory = req.query.category;
+
     let products;
 
     try {
@@ -13,7 +15,16 @@ async function getProducts(req, res) {
         return res.sendStatus(STATUS_CODE.BAD_REQUEST);
     }
 
-    if (query) {
+    if (queryCategory) {
+        let filtered = products.filter((e) => {
+            const name = e.category.toUpperCase();
+            return name.includes(queryCategory.toUpperCase());
+        });
+
+        return res.status(STATUS_CODE.OK).send(filtered);
+    }
+
+    if (queryName) {
         let filtered = products.filter((e) => {
             const name = e.name.toUpperCase();
             return name.includes(query.toUpperCase());
