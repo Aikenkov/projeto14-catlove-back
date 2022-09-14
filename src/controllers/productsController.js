@@ -82,7 +82,6 @@ async function getCart(req, res) {
         if (cart === null) {
             return res.send([]);
         }
-
         res.send(cart.products);
     } catch (error) {
         console.error(error.message);
