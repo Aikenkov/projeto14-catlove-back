@@ -23,13 +23,14 @@ async function signUp(req, res) {
 async function signIn(req, res) {
     const { password } = req.body;
     const user = res.locals.user;
+    console.log(user);
 
     const passwordIsValid = bcrypt.compareSync(password, user.password);
     if (passwordIsValid) {
         const token = uuid();
 
         try {
-            const exist = await db.collection(COLLECTIONS.USERS).findOne({
+            const exist = await db.collection(COLLECTIONS.SESSIONS).findOne({
                 userId: user._id,
             });
 
