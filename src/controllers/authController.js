@@ -29,7 +29,7 @@ async function signIn(req, res) {
         const token = uuid();
 
         try {
-            const exist = await db.collection(COLLECTIONS.USERS).findOne({
+            const exist = await db.collection(COLLECTIONS.SESSIONS).findOne({
                 userId: user._id,
             });
 
