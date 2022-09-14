@@ -1,7 +1,8 @@
 const COLLECTIONS = Object.freeze({
     USERS: "users",
     SESSIONS: "sessions",
-    // CART: "cart",
+    PRODUCTS: "produtos",
+    CART: "cart",
 });
 
 export { COLLECTIONS };

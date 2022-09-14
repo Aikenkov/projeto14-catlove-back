@@ -1,6 +1,7 @@
 import db from "../database/db.js";
 import { STATUS_CODE } from "../enums/statusCode.js";
 import { COLLECTIONS } from "../enums/collections.js";
+import { ObjectId } from "mongodb";
 
 async function getProducts(req, res) {
     const queryName = req.query.search;
@@ -9,7 +10,7 @@ async function getProducts(req, res) {
     let products;
 
     try {
-        products = await db.collection("produtos").find().toArray();
+        products = await db.collection(COLLECTIONS.PRODUCTS).find().toArray();
     } catch (error) {
         console.error(error.message);
         return res.sendStatus(STATUS_CODE.BAD_REQUEST);
@@ -36,4 +37,57 @@ async function getProducts(req, res) {
     res.status(STATUS_CODE.OK).send(products);
 }
 
-export { getProducts };
+async function insertOnCart(req, res) {
+    const { products } = req.body;
+    const session = res.locals.session;
+
+    try {
+        const cart = await db
+            .collection(COLLECTIONS.CART)
+            .findOne({ userId: session.userId });
+
+        if (cart !== null) {
+            await db.collection(COLLECTIONS.CART).updateOne(
+                { userId: ObjectId(session.userId) },
+                {
+                    $set: {
+                        products: products,
+                    },
+                }
+            );
+        }
+
+        if (cart === null) {
+            await db.collection(COLLECTIONS.CART).insertOne({
+                userId: session.userId,
+                products: products,
+            });
+        }
+
+        res.sendStatus(STATUS_CODE.CREATED);
+    } catch (error) {
+        console.error(error.message);
+        return res.sendStatus(STATUS_CODE.SERVER_ERROR);
+    }
+}
+
+async function getCart(req, res) {
+    const session = res.locals.session;
+
+    try {
+        const cart = await db
+            .collection(COLLECTIONS.CART)
+            .findOne({ userId: session.userId });
+
+        if (cart === null) {
+            return res.send([]);
+        }
+
+        res.send(cart.products);
+    } catch (error) {
+        console.error(error.message);
+        return res.sendStatus(STATUS_CODE.SERVER_ERROR);
+    }
+}
+
+export { getProducts, insertOnCart, getCart };
