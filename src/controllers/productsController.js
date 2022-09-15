@@ -28,7 +28,7 @@ async function getProducts(req, res) {
     if (queryName) {
         let filtered = products.filter((e) => {
             const name = e.name.toUpperCase();
-            return name.includes(query.toUpperCase());
+            return name.includes(queryName.toUpperCase());
         });
 
         return res.status(STATUS_CODE.OK).send(filtered);
