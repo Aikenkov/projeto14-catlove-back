@@ -89,4 +89,23 @@ async function getCart(req, res) {
     }
 }
 
-export { getProducts, insertOnCart, getCart };
+async function checkout(req, res) {
+    const session = res.locals.session;
+    const { name, payment, value, products } = req.body;
+
+    try {
+        const purchase = await db.collection("teste").insertOne({
+            userId: session.userId,
+            name,
+            value,
+            payment,
+            products,
+        });
+        return res.send(purchase);
+    } catch (error) {
+        console.error(error.message);
+        return res.sendStatus(STATUS_CODE.SERVER_ERROR);
+    }
+}
+
+export { getProducts, insertOnCart, getCart, checkout };
