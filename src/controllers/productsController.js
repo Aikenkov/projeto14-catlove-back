@@ -90,16 +90,19 @@ async function getCart(req, res) {
 }
 
 async function deleteOnCart(req, res) {
-  const { product } = req.body;
+  const id = req.params.id;
   const session = res.locals.session;
+  console.log("Executou a funcao");
 
   try {
     const cart = await db
       .collection(COLLECTIONS.CART)
       .findOne({ userId: session.userId });
+    console.log("Pediu os carts");
+    console.log(cart);
 
-    const newProducts = cart.product.filter(
-      (cartProduct) => cartProduct._id !== product._id
+    const newProducts = cart.products.filter(
+      (cartProduct) => cartProduct._id !== id
     );
 
     console.log(newProducts);

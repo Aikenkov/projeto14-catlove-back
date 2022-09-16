@@ -9,15 +9,12 @@ import {
   deleteOnCart,
 } from "../controllers/productsController.js";
 
-import { produtos } from "../controllers/authController.js";
-
 const router = express.Router();
 
 router.get("/products", verifyAuth, getProducts);
 router.post("/cart", verifyAuth, insertOnCart);
 router.get("/cart", verifyAuth, getCart);
-router.delete("/cart", verifyAuth, deleteOnCart);
-router.post("/produtos", produtos);
+router.delete("/cart/:id", verifyAuth, deleteOnCart);
 router.post("/checkout", verifyAuth, verifyCheckout, checkout);
 
 export default router;
