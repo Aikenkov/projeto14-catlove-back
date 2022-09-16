@@ -247,22 +247,19 @@ const products = [
     },
 ];
 
+//colocar o array e a função no products controller
+
 async function produtos(req, res) {
     try {
-        products.map((e) => {
-            return db.collection("produtos").insertOne(e);
-        });
+        await db.collection("produtos").insertMany(products);
     } catch (error) {
         return console.error(error);
     }
     res.send("ok");
-
-    /* get dos produtos
-     try {
-        lista = await db.collection("produtos").find().toArray();
-    } catch (error) {
-        console.log("ui");
-    }
-    console.log(lista);
-    res.send(lista); */
 }
+
+//colocar no products.router:
+
+router.post("/produtos", produtos);
+
+import {} from "../controllers/productsController.js";

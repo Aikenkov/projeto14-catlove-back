@@ -28,7 +28,7 @@ async function getProducts(req, res) {
     if (queryName) {
         let filtered = products.filter((e) => {
             const name = e.name.toUpperCase();
-            return name.includes(query.toUpperCase());
+            return name.includes(queryName.toUpperCase());
         });
 
         return res.status(STATUS_CODE.OK).send(filtered);
@@ -89,4 +89,23 @@ async function getCart(req, res) {
     }
 }
 
-export { getProducts, insertOnCart, getCart };
+async function checkout(req, res) {
+    const session = res.locals.session;
+    const { name, payment, value, products } = req.body;
+
+    try {
+        const purchase = await db.collection(COLLECTIONS.CHECKOUTS).insertOne({
+            userId: session.userId,
+            name,
+            value,
+            payment,
+            products,
+        });
+        return res.send(purchase);
+    } catch (error) {
+        console.error(error.message);
+        return res.sendStatus(STATUS_CODE.SERVER_ERROR);
+    }
+}
+
+export { getProducts, insertOnCart, getCart, checkout };
