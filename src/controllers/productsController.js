@@ -94,7 +94,7 @@ async function checkout(req, res) {
     const { name, payment, value, products } = req.body;
 
     try {
-        const purchase = await db.collection("teste").insertOne({
+        const purchase = await db.collection(COLLECTIONS.CHECKOUTS).insertOne({
             userId: session.userId,
             name,
             value,
