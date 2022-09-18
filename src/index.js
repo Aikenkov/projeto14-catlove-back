@@ -13,6 +13,6 @@ server.use(express.json());
 server.use(productsRouter);
 server.use(userRouter);
 
-server.listen(5000, () => {
-    console.log(`Listening on port: ${process.env.PORT_API}`);
+server.listen(process.env.PORT, () => {
+    console.log(`Listening on port: ${process.env.PORT}`);
 });
