@@ -1,7 +1,7 @@
 const COLLECTIONS = Object.freeze({
     USERS: "users",
     SESSIONS: "sessions",
-    PRODUCTS: "produtos",
+    PRODUCTS: "products",
     CART: "cart",
     CHECKOUTS: "checkouts",
 });
