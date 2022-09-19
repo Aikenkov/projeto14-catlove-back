@@ -6,10 +6,10 @@ dotenv.config();
 const mongoClient = new MongoClient(process.env.MONGO_URI);
 
 try {
-  await mongoClient.connect();
-  console.log("MongoDB conectado");
+    await mongoClient.connect();
+    console.log("MongoDB conectado");
 } catch (err) {
-  console.log(err.message);
+    console.error(err.message);
 }
 
 const db = mongoClient.db("catlove");

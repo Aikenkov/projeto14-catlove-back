@@ -15,7 +15,7 @@ async function signUp(req, res) {
             .insertOne({ name, email, image, password: passwordHash });
         res.sendStatus(STATUS_CODE.OK);
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
         res.sendStatus(STATUS_CODE.SERVER_ERROR);
     }
 }
@@ -40,7 +40,7 @@ async function signIn(req, res) {
                 return res.send({ name: user.name, image: user.image, token });
             }
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
             res.sendStatus(STATUS_CODE.SERVER_ERROR);
         }
 
@@ -50,7 +50,7 @@ async function signIn(req, res) {
                 token,
             });
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
             res.sendStatus(STATUS_CODE.SERVER_ERROR);
         }
         return res.send({ name: user.name, image: user.image, token });
